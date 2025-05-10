@@ -47,8 +47,8 @@ And instantly get a custom layout with draggable windows, themes, and apps.
 ## 🧪 How to Run
 
 ```bash
-git clone https://github.com/your-username/ai-desktop-backend.git
-cd ai-desktop-backend
+git clone https://github.com/shittybin/inos.git
+cd inos
 npm install
 echo "OPENAI_API_KEY=your_key_here" > .env
 node index.js
