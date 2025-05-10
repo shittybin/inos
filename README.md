@@ -62,30 +62,4 @@ node index.js
 
 ---
 
-Made with ❤️ for the International Hackathon.
-
-```
-
----
-
-### ✅ 🔖 Recommended GitHub Tags
-```
-
-ai
-gpt4
-openai
-nodejs
-express
-hackathon
-virtual-os
-layout-generator
-website-builder
-gpt-backend
-prompt-to-layout
-
-```
-
----
-
-Would you like me to create a `frontend/README.md` version too for the next repo?
-```
+Made with ☕️!
