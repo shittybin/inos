@@ -1,0 +1,721 @@
+
+<!DOCTYPE html>
+<html lang="en" class="desktop">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonXP - The Future of Retro Computing</title>
+    <style>
+        :root {
+            --primary: #1a5694;
+            --secondary: #c0c0c0;
+            --accent: #4a90cf;
+            --bg: #f0f0f0;
+            --window-bg: #ffffff;
+            --text: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            overflow: hidden;
+            color: var(--text);
+        }
+
+        .desktop {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8f9fa 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to top, #a0c4ff, #1a5694);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            box-shadow: 0 -1px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .start-button {
+            background: linear-gradient(to bottom, #4a90cf, #1a5694);
+            color: white;
+            padding: 5px 15px;
+            border: 1px solid #003366;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .taskbar-icons {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 2px rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .clock {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Start Menu */
+        .start-menu {
+            position: absolute;
+            bottom: 45px;
+            left: 10px;
+            width: 250px;
+            background: #f0f0f0;
+            border: 1px solid #8ab8ff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .start-section {
+            margin-bottom: 10px;
+        }
+
+        .start-section h3 {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #003366;
+        }
+
+        .app-button {
+            background: #e0e0e0;
+            border: 1px solid #a0a0a0;
+            padding: 5px;
+            margin: 2px 0;
+            cursor: pointer;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Windows */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 2px solid #4a90cf;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            z-index: 999;
+        }
+
+        .window.active {
+            z-index: 1001;
+        }
+
+        .window-title {
+            background: linear-gradient(to right, #4a90cf, #1a5694);
+            color: white;
+            padding: 5px 10px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .window-title .close-btn {
+            width: 16px;
+            height: 16px;
+            background: #ff4444;
+            border-radius: 50%;
+            display: inline-block;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            line-height: 14px;
+            cursor: pointer;
+        }
+
+        .window-content {
+            padding: 10px;
+            height: calc(100% - 32px);
+            overflow: auto;
+        }
+
+        /* Notepad */
+        .notepad textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            background: #fff;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+        }
+
+        /* Paint */
+        .paint canvas {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            cursor: crosshair;
+        }
+
+        /* File Manager */
+        .file-manager {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .file-item {
+            width: 64px;
+            height: 64px;
+            background: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        .file-icon {
+            width: 32px;
+            height: 32px;
+            background: #e0e0e0;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+
+        /* AI Assistant */
+        .ai-chat {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-output {
+            flex: 1;
+            background: #f8f8f8;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 5px;
+        }
+
+        .chat-input textarea {
+            flex: 1;
+            height: 40px;
+            resize: none;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            padding: 5px 10px;
+        }
+
+        /* Retro effects */
+        .glossy {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .toolbar {
+            background: #d0d0d0;
+            padding: 5px;
+            border-bottom: 1px solid #a0a0a0;
+        }
+
+        .toolbar button {
+            border: 1px solid #a0a0a0;
+            background: #e0e0e0;
+            padding: 3px 8px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .toolbar button:hover {
+            background: #f0f0f0;
+        }
+
+        /* Modal Windows */
+        @keyframes windowOpen {
+            from {transform: scale(0.9); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+
+        .window {
+            animation: windowOpen 0.2s ease-out;
+        }
+
+        /* Pixel Icons */
+        .pixel-circle {
+            width: 12px;
+            height: 12px;
+            background: #4a90cf;
+            border-radius: 50%;
+            margin: 2px auto;
+        }
+
+        .pixel-doc {
+            width: 16px;
+            height: 20px;
+            background: #ffffcc;
+            position: relative;
+            margin: auto;
+        }
+
+        .pixel-doc::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 6px;
+            height: 6px;
+            background: #ff8800;
+        }
+
+        .pixel-paint {
+            width: 18px;
+            height: 18px;
+            background: #e0e0e0;
+            position: relative;
+            margin: auto;
+        }
+
+        .pixel-paint::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 10px;
+            height: 10px;
+            background: #ff4444;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .pixel-ai {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+
+        .pixel-ai::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #4a90cf;
+            margin-bottom: 2px;
+            border-radius: 2px;
+        }
+
+        .pixel-ai::after {
+            content: '';
+            width: 14px;
+            height: 6px;
+            background: #888;
+            border-radius: 2px;
+        }
+
+        /* File Preview */
+        .file-preview {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 300px;
+            display: none;
+            z-index: 9999;
+        }
+
+        .file-preview img, .file-preview pre {
+            max-width: 280px;
+            max-height: 200px;
+            overflow: auto;
+        }
+
+        /* Retro Scrollbars */
+        .chat-output::-webkit-scrollbar,
+        .file-manager::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .chat-output::-webkit-scrollbar-track,
+        .file-manager::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-output::-webkit-scrollbar-thumb,
+        .file-manager::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        /* Window Controls */
+        .window-controls {
+            position: absolute;
+            right: 40px;
+            top: 5px;
+            color: white;
+        }
+
+        .window-controls button {
+            background: none;
+            border: none;
+            color: white;
+            margin: 0 2px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* App Icons */
+        .app-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 800px) {
+            .desktop {
+                flex-direction: column;
+            }
+            .taskbar {
+                position: relative;
+                height: auto;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            .start-button {
+                margin: 5px;
+            }
+            .window {
+                width: 90% !important;
+                height: 70% !important;
+                top: 15% !important;
+                left: 5% !important;
+            }
+        }
+    </style>
+</head>
+<body class="desktop">
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="start-button">Start</div>
+        <div class="taskbar-icons">
+            <div class="icon app-icon" data-app="notepad">
+                <div class="pixel-doc"></div>
+            </div>
+            <div class="icon app-icon" data-app="paint">
+                <div class="pixel-paint"></div>
+            </div>
+            <div class="icon app-icon" data-app="ai">
+                <div class="pixel-ai"></div>
+            </div>
+            <div class="icon app-icon" data-app="files">
+                <div class="pixel-folder"></div>
+            </div>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu" id="startMenu">
+        <div class="start-section">
+            <h3>Programs</h3>
+            <div class="app-button" data-app="notepad"><div class="pixel-doc"></div> Notepad</div>
+            <div class="app-button" data-app="paint"><div class="pixel-paint"></div> Paint</div>
+            <div class="app-button" data-app="ai"><div class="pixel-ai"></div> AI Assistant</div>
+            <div class="app-button" data-app="files"><div class="pixel-folder"></div> File Manager</div>
+        </div>
+        <div class="start-section">
+            <h3>Settings</h3>
+            <div class="app-button">Display</div>
+            <div class="app-button">Themes</div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="window" id="ai" style="width: 600px; height: 400px; top: 50px; left: 100px;">
+        <div class="window-title">AI Assistant <div class="close-btn" data-app="ai">&times;</div></div>
+        <div class="window-content ai-chat">
+            <div class="chat-output" id="aiOutput">
+                <div><strong>AI:</strong> Hello! How can I assist you today?</div>
+            </div>
+            <div class="chat-input">
+                <textarea id="aiInput" placeholder="Ask me anything..."></textarea>
+                <button onclick="sendAI()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notepad -->
+    <div class="window" id="notepad" style="width: 500px; height: 400px; top: 80px; left: 150px;">
+        <div class="window-title">Notepad <div class="close-btn" data-app="notepad">&times;</div></div>
+        <div class="toolbar">
+            <button onclick="saveNote()">Save</button>
+            <button onclick="openNote()">Open</button>
+        </div>
+        <div class="window-content">
+            <textarea id="noteContent">Welcome to NeonXP Notepad!\n\nThis is a modern twist on the classic Windows XP notepad with cloud saving.\n\nType your notes here and click Save to store them in your virtual file system.</textarea>
+        </div>
+    </div>
+
+    <!-- Paint -->
+    <div class="window" id="paint" style="width: 700px; height: 500px; top: 50px; left: 100px;">
+        <div class="window-title">Paint <div class="close-btn" data-app="paint">&times;</div></div>
+        <div class="toolbar">
+            <button onclick="saveDrawing()">Save</button>
+            <button onclick="clearCanvas()">New</button>
+        </div>
+        <div class="window-content paint">
+            <canvas id="paintCanvas" width="680" height="450"></canvas>
+        </div>
+    </div>
+
+    <!-- File Manager -->
+    <div class="window" id="files" style="width: 600px; height: 400px; top: 100px; left: 200px;">
+        <div class="window-title">File Manager <div class="close-btn" data-app="files">&times;</div></div>
+        <div class="window-content file-manager" id="fileManager">
+            <!-- Files will be populated here -->
+        </div>
+    </div>
+
+    <!-- File Preview -->
+    <div class="file-preview" id="filePreview"></div>
+
+    <script>
+        // Window Management
+        document.querySelectorAll('.start-button, .taskbar-icons .icon, .app-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const app = btn.dataset.app || btn.innerText.trim().toLowerCase();
+                toggleWindow(app);
+            });
+        });
+
+        function toggleWindow(app) {
+            const win = document.getElementById(app);
+            if (win.style.display === 'none' || !win.style.display) {
+                win.style.display = 'block';
+                win.classList.add('active');
+            } else {
+                win.style.display = 'none';
+            }
+            updateTaskbar(app);
+        }
+
+        function updateTaskbar(app) {
+            document.querySelectorAll(`[data-app="${app}"]`).forEach(icon => {
+                const isActive = document.getElementById(app).style.display !== 'none';
+                icon.style.background = isActive ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)';
+            });
+        }
+
+        // AI Assistant
+        function sendAI() {
+            const input = document.getElementById('aiInput');
+            const output = document.getElementById('aiOutput');
+            if (input.value.trim()) {
+                output.innerHTML += `<div><strong>You:</strong> ${input.value}</div>`;
+                output.innerHTML += `<div><strong>AI:</strong> Processing "${input.value}"...</div>`;
+                input.value = '';
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+
+        // Notepad
+        function saveNote() {
+            const content = document.getElementById('noteContent').value;
+            localStorage.setItem('noteText', content);
+            saveFile('note.txt', content, 'text');
+            updateFileManager();
+        }
+
+        function openNote() {
+            const content = localStorage.getItem('noteText') || 'No saved notes found!';
+            document.getElementById('noteContent').value = content;
+        }
+
+        // Paint
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0, lastY = 0;
+
+        canvas.addEventListener('mousedown', e => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function saveDrawing() {
+            const dataURL = canvas.toDataURL();
+            localStorage.setItem('savedDrawing', dataURL);
+            saveFile('drawing.png', dataURL, 'image');
+            updateFileManager();
+        }
+
+        // File Manager
+        function saveFile(name, content, type) {
+            const files = JSON.parse(localStorage.getItem('fileList') || '[]');
+            files.push({name, content, type});
+            localStorage.setItem('fileList', JSON.stringify(files));
+        }
+
+        function updateFileManager() {
+            const container = document.getElementById('fileManager');
+            container.innerHTML = '';
+            const files = JSON.parse(localStorage.getItem('fileList') || '[]');
+            
+            files.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <div class="file-icon">
+                        ${file.type === 'text' ? '<div class="pixel-doc"></div>' : '<div class="pixel-paint"></div>'}
+                    </div>
+                    <small>${file.name}</small>
+                `;
+                item.addEventListener('click', () => showPreview(file));
+                container.appendChild(item);
+            });
+        }
+
+        function showPreview(file) {
+            const preview = document.getElementById('filePreview');
+            preview.style.display = 'block';
+            preview.innerHTML = '';
+            
+            if (file.type === 'text') {
+                const pre = document.createElement('pre');
+                pre.textContent = file.content;
+                preview.appendChild(pre);
+            } else {
+                const img = document.createElement('img');
+                img.src = file.content;
+                preview.appendChild(img);
+            }
+        }
+
+        // Clock
+        setInterval(() => {
+            const date = new Date();
+            document.getElementById('clock').textContent = 
+                date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }, 1000);
+
+        // Window Drag Function
+        document.querySelectorAll('.window-title').forEach(title => {
+            let pos1 = 0, pos2 = 0;
+            title.onmousedown = dragStart;
+
+            function dragStart(e) {
+                e = e || window.event;
+                pos1 = e.clientX;
+                pos2 = e.clientY;
+                document.onmouseup = dragEnd;
+                document.onmousemove = dragMove;
+            }
+
+            function dragMove(e) {
+                if (!pos1 && !pos2) return;
+                const win = title.parentElement;
+                const pos3 = pos1 - e.clientX;
+                const pos4 = pos2 - e.clientY;
+                pos1 = e.clientX;
+                pos2 = e.clientY;
+                win.style.top = (win.offsetTop - pos4) + 'px';
+                win.style.left = (win.offsetLeft - pos3) + 'px';
+            }
+
+            function dragEnd() {
+                pos1 = pos2 = 0;
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        });
+
+        // Close Buttons
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById(btn.dataset.app).style.display = 'none';
+                updateTaskbar(btn.dataset.app);
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateFileManager();
+            openNote();
+            if (localStorage.getItem('savedDrawing')) {
+                canvas.src = localStorage.getItem('savedDrawing');
+            }
+        });
+    </script>
+</body>
+</html>
