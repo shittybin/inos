@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Personal website of Dr. Jane Cosmos, Astronomer specializing in exoplanetary systems and galactic evolution."/>
+  <title>Dr. Jane Cosmos | Astrophysicist & Researcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a252f;
+      --secondary: #00bcd4;
+      --accent: #ff9800;
+      --light: #f5f5f5;
+      --dark: #121212;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: var(--light);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .menu a:hover {
+      color: var(--accent);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        width: 100%;
+        flex-direction: column;
+        display: none;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1490822150378-095751540b5a') no-repeat center center/cover;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-content {
+      background: rgba(0,0,0,0.6);
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      font-size: 2rem;
+    }
+
+    .about {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .about img {
+      width: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .publications {
+      background: var(--primary);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 8px;
+    }
+
+    .publication {
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      background: var(--light);
+      padding: 2rem;
+      border-radius: 8px;
+    }
+
+    form input, form textarea {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    form button {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: var(--accent);
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .socials a {
+      color: white;
+      margin: 0 0.5rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">JANE COSMOS</div>
+      <div class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navigation">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="menu" id="navigation">
+        <li><a href="#about">About</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Dr. Jane Cosmos</h1>
+        <p class="tagline">Unlocking the Secrets of the Universe, One Discovery at a Time</p>
+        <a href="#about" class="cta" style="display:inline-block; margin-top:1rem; padding:0.8rem 1.5rem; background:var(--secondary); color:white; border-radius:5px; text-decoration:none;">Explore My Work</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">About Me</h2>
+      <div class="about">
+        <img src="https://images.unsplash.com/photo-1606404300739-2f3e6c5c5d33" alt="Dr. Jane Cosmos headshot">
+        <div>
+          <p><strong>Astrophysicist | Science Communicator | Space Enthusiast</strong></p>
+          <p>With 15+ years studying exoplanetary systems and galactic dynamics, Dr. Jane Cosmos has published over 50 peer-reviewed papers and given TED talks on cosmic phenomena. Currently leading the Exoplanet Discovery Project at the International Space Observatory.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="research">
+      <h2 class="section-title">Research Areas</h2>
+      <div class="research-grid">
+        <div class="card">
+          <h3>Exoplanet Atmospheres</h3>
+          <p>Analyzing atmospheric composition of planets outside our solar system using spectroscopy and transit photometry.</p>
+        </div>
+        <div class="card">
+          <h3>Galactic Evolution</h3>
+          <p>Modeling galaxy formation through supercomputer simulations of dark matter distribution.</p>
+        </div>
+        <div class="card">
+          <h3>SETI Investigations</h3>
+          <p>Leading an AI-powered search for non-random patterns in radio telescope data from the Kepler field.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+      <h2 class="section-title" style="color:white;">Key Publications</h2>
+      <div class="publications">
+        <div class="publication">
+          <h3>Atmospheric Signatures of Habitable Exoplanets</h3>
+          <p><em>Nature Astronomy</em>, Volume 7, 2023</p>
+          <p>Co-authored with NASA's James Webb Telescope Team</p>
+          <a href="#" style="color:var(--accent);">Read PDF</a>
+        </div>
+        <div class="publication">
+          <h3>Dark Matter Distribution in Dwarf Galaxies</h3>
+          <p><em>Astrophysical Journal</em>, Volume 890, 2022</p>
+          <p>Lead researcher using ALMA telescope data</p>
+          <a href="#" style="color:var(--accent);">Read PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title">Get In Touch</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Dr. Jane Cosmos. All rights reserved.</p>
+    <div class="socials">
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">ResearchGate</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.menu');
+    
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+    });
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
