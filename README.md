@@ -21,7 +21,7 @@ And instantly get a custom layout with draggable windows, themes, and apps.
 ### Request body:
 ```json
 {
-  "prompt": "A futuristic OS with AI assistant and file manager"
+  "prompt": "Design a futuristic WebOS inspired by Windows XP, blending retro aesthetics with modern technology. The interface should include an AI assistant, a classic-style file manager, a working notepad app, and a paint application. The file manager should visibly show saved text and image files from the notepad and paint apps. Use a nostalgic color scheme (e.g., blue and silver tones) with glossy buttons, pixel-style icons, and soft shadows. The overall vibe should be a perfect mix of early 2000s UI and futuristic UX — clean, vibrant, functional, and slightly playful."
 }
 ````
 
